@@ -1,0 +1,63 @@
+let SECONDS_IN_DAY = 86400
+let NORMAL_YEAR_DAYS = 365
+let LEAP_YEAR_DAYS = 366
+let NORMAL_YEAR_MONTH_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+let LEAP_YEAR_MONTH_DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+let fn is_leap_year(year) {
+    return year % 4 == 0 & (year % 100 != 0 | year % 400 == 0)
+}
+
+return fn (seconds_since_epoch) {
+    year = 1970
+
+    total_days = float.floor(seconds_since_epoch / SECONDS_IN_DAY)
+    seconds_in_day = seconds_since_epoch % SECONDS_IN_DAY
+
+    hours = float.floor(seconds_in_day / 3600)
+    seconds_in_day %= 3600
+    minutes = float.floor(seconds_in_day / 60)
+    seconds = seconds_in_day % 60
+
+    days_in_year = NORMAL_YEAR_DAYS
+    while total_days > 0 {
+        if is_leap_year(year) {
+            days_in_year = LEAP_YEAR_DAYS
+        } else {
+            days_in_year = NORMAL_YEAR_DAYS
+        }
+
+        if total_days >= days_in_year {
+            total_days -= days_in_year
+            year += 1
+        } else {
+            break
+        }
+    }
+
+    if is_leap_year(year) {
+        month_days = LEAP_YEAR_MONTH_DAYS
+    } else {
+        month_days = NORMAL_YEAR_MONTH_DAYS
+    }
+
+    month = 1
+    for days_in_month in month_days:iter() {
+        if total_days >= days_in_month {
+            total_days -= days_in_month
+            month += 1
+        } else {
+            break
+        }
+    }
+
+    day = total_days + 1
+    return {
+        year = year
+        month = month
+        day = day
+        hours = hours
+        minutes = minutes
+        seconds = seconds
+    }
+}

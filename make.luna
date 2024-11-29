@@ -1,0 +1,12 @@
+let datetime = require "datetime"
+let day = datetime(os.time()).day
+
+let folder = "day-%s":format(day)
+os.exec("mkdir", folder)
+os.exec("mkdir", str(folder, "/input"))
+os.exec("touch", str(folder, "/input/test1.luna"))
+os.exec("touch", str(folder, "/input/input1.luna"))
+os.exec("touch", str(folder, "/input/test2.luna"))
+os.exec("touch", str(folder, "/input/input2.luna"))
+os.exec("touch", str(folder, "/part1.luna"))
+os.exec("touch", str(folder, "/part2.luna"))
