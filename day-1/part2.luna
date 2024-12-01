@@ -1,0 +1,29 @@
+let fn read(path) {
+    return fs.open(path, "r"):read()
+}
+
+let fn parse(input) {
+    let lines = input:split("\n")
+    let lefts = array.u32()
+    let rights = array.u32()
+    for line in lines:iter() {
+        let [left, right] = line:split(" ")
+        lefts:push(int.from(left))
+        rights:push(int.from(right))
+    }
+    return [lefts, rights]
+}
+let fn puzzle(input) {
+    let [lefts, rights] = parse(input)
+    let similar = array.u32()
+    for v in lefts:iter() {
+        similar:push(rights:count(v) * v)
+    }
+    let sum = 0
+    for amount in similar:iter() {
+        sum += amount
+    }
+    return sum
+}
+
+print(puzzle(read "input/input2"))

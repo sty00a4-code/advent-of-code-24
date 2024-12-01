@@ -1,0 +1,33 @@
+let fn read(path) {
+    return fs.open(path, "r"):read()
+}
+
+let fn parse(input) {
+    let lines = input:split("\n")
+    let lefts = array.u32()
+    let rights = array.u32()
+    for line in lines:iter() {
+        let [left, right] = line:split(" ")
+        lefts:push(int.from(left))
+        rights:push(int.from(right))
+    }
+    return [lefts, rights]
+}
+let fn puzzle(input) {
+    let [lefts, rights] = parse(input)
+    lefts:sort()
+    rights:sort()
+    let distances = array.u32(lefts:len())
+    for i in range(0, lefts:len()) {
+        let left = lefts:get(i)
+        let right = rights:get(i)
+        distances:set(i, math.abs(left - right))
+    }
+    let sum = 0
+    for dist in distances:iter() {
+        sum += dist
+    }
+    return sum
+}
+
+print(puzzle(read "input/input1"))
